@@ -76,30 +76,32 @@ th{background:#333;}
 // 🔥 소환 횟수 함수
 function getSummonCount(lvl){
 
-// 2~21
-if(lvl===2) return 2
-if(lvl===3) return 3
-if(lvl===4) return 4
-if(lvl===5) return 5
-if(lvl===6) return 6
-if(lvl===7) return 7
-if(lvl===8) return 8
-if(lvl===9) return 9
-if(lvl===10) return 10
-if(lvl===11) return 11
-if(lvl===12) return 12
-if(lvl===13) return 13
-if(lvl===14) return 14
-if(lvl===15) return 15
-if(lvl===16) return 16
-if(lvl===17) return 17
-if(lvl===18) return 18
-if(lvl===19) return 19
-if(lvl===20) return 20
-if(lvl===21) return 21
+// 2~28
+if(lvl===2||lvl===3) return 2
+if(lvl===4||lvl===5) return 3
+if(lvl===6||lvl===7) return 4
+if(lvl===8||lvl===9) return 5
+if(lvl===10||lvl===11) return 6
+if(lvl===12||lvl===13) return 7
+if(lvl===14) return 8
+if(lvl===15) return 9
+if(lvl===16) return 10
+if(lvl===17) return 11
+if(lvl===18) return 12
+if(lvl===19) return 13
+if(lvl===20) return 14
+if(lvl===21) return 15
+if(lvl===22) return 16
+if(lvl===23) return 17
+if(lvl===24) return 18
+if(lvl===25) return 19
+if(lvl===26) return 20
+if(lvl===27) return 21
+if(lvl===28) return 22
+  
 
-// 22~100 → 22
-return 22
+// 29~100 → 23
+return 23
 }
 // UI
 function createUI(){
