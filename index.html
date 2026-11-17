@@ -21,7 +21,7 @@ th{background:#333;}
 <body>
 
 <h1>포지마스터 펫 계산기</h1>
-<p>제작자 : 21서버 Dominant 클랜 리더 Troud</p>
+<p>제작자 : 21서버 Dominant 클랜 리더 Troud (3승천 150레벨 확장 반영)</p>
 
 <div class="card">
 <h2>기술 트리 티어 설정</h2>
@@ -37,7 +37,7 @@ th{background:#333;}
 </select>
 
 현재 레벨
-<input id="curLvl" type="number" min="1" max="100" value="1">
+<input id="curLvl" type="number" min="1" max="150" value="1">
 
 <br><br>
 
@@ -47,7 +47,7 @@ th{background:#333;}
 </select>
 
 목표 레벨
-<input id="tarLvl" type="number" min="1" max="100" value="100">
+<input id="tarLvl" type="number" min="1" max="150" value="150">
 
 </div>
 
@@ -60,7 +60,7 @@ th{background:#333;}
 </div>
 
 <div class="card">
-<h2>레벨별 필요 소환 횟수</h2>
+<h2>레벨별 필요 소환 횟수 (1~150)</h2>
 
 <table id="summonTable">
 <tr>
@@ -73,36 +73,36 @@ th{background:#333;}
 
 <script>
 
+// 🔥 승천별 최대 레벨 반환 함수 (0~2승천: 100레벨, 3승천: 150레벨)
+function getMaxLevel(asc){
+return asc === 3 ? 150 : 100;
+}
+
 // 🔥 소환 횟수 함수
 function getSummonCount(lvl){
 
-// 2~28
 if(lvl===2||lvl===3) return 2
 if(lvl===4||lvl===5) return 3
 if(lvl===6||lvl===7) return 4
 if(lvl===8||lvl===9) return 5
 if(lvl===10||lvl===11) return 6
 if(lvl===12||lvl===13) return 7
-if(lvl===14) return 8
-if(lvl===15) return 9
-if(lvl===16) return 10
-if(lvl===17) return 11
-if(lvl===18) return 12
-if(lvl===19) return 13
-if(lvl===20) return 14
-if(lvl===21) return 15
-if(lvl===22) return 16
-if(lvl===23) return 17
-if(lvl===24) return 18
-if(lvl===25) return 19
-if(lvl===26) return 20
-if(lvl===27) return 21
+if(lvl===14||lvl===15) return 8
+if(lvl===16||lvl===17) return 9
+if(lvl===18||lvl===19) return 10
+if(lvl===20||lvl===21) return 11
+if(lvl===22||lvl===23) return 12
+if(lvl===24||lvl===25) return 13
+if(lvl===26||lvl===27) return 14
 if(lvl===28) return 22
-  
 
-// 29~100 → 23
+// 29~100
+if(lvl <= 100) return 23
+
+// 101~150 구간 (3승천 확장 - 추후 데이터에 맞게 수정 가능)
 return 23
 }
+
 // UI
 function createUI(){
 
@@ -165,6 +165,13 @@ let tarAsc=Number(tarAscEl.value)
 let curLvl=Number(curLvlEl.value)
 let tarLvl=Number(tarLvlEl.value)
 
+// 입력값 검증: 목표 레벨이 해당 승천의 최대 레벨을 넘지 않도록 제한
+let maxCurLvl = getMaxLevel(curAsc);
+let maxTarLvl = getMaxLevel(tarAsc);
+
+if(curLvl > maxCurLvl) curLvl = maxCurLvl;
+if(tarLvl > maxTarLvl) tarLvl = maxTarLvl;
+
 if(
     curAsc > tarAsc ||
     (curAsc === tarAsc && curLvl > tarLvl)
@@ -179,15 +186,14 @@ let total=0
 while(true){
 
 if(curAsc===tarAsc){
-
 for(let i=curLvl+1;i<=tarLvl;i++){
 total+=getSummonCount(i)
 }
-
 break
 }
 
-for(let i=curLvl+1;i<=100;i++){
+let maxLvl = getMaxLevel(curAsc);
+for(let i=curLvl+1;i<=maxLvl;i++){
 total+=getSummonCount(i)
 }
 
@@ -206,12 +212,12 @@ summonCount.innerText="필요 소환 횟수 : "+total.toLocaleString()
 eggResult.innerText="필요 알 : "+eggCeil.toLocaleString()+" ("+eggK+"k)"
 }
 
-// 표
+// 표 (1~150레벨)
 function createTable(){
 
 let html=""
 
-for(let i=1;i<=100;i++){
+for(let i=1;i<=150;i++){
 
 html+="<tr>"
 html+="<td>"+i+"</td>"
